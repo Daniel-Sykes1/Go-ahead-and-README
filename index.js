@@ -4,19 +4,24 @@ const fs = require('fs');
 const path = require('path');
 const generateMarkdown = require('./utils/generateMarkdown');
 
-const generateREADME = ({title, github, email, description, installation, usage, contribution, test }) =>
-`
+ 
+const generateREADME = ({title, github, email, description, installation, usage, license, contribution, test}) => {
+    return `
 # Title 
 ${title}
 
-## Description 
-${description}
-
 ## Table of Contents
 
+- [Description](#description)
 - [Installation](#installation)
 - [Usage](#usage)
 - [License](#license)
+- [Contribution](#contribution)
+- [Tests](#tests)
+- [Questions](#questions)
+
+## Description 
+${description}
 
 ## Installation 
 ${installation}
@@ -25,7 +30,7 @@ ${installation}
 ${usage}
 
 ## License
-
+${license}
 ## Contribution 
 ${contribution}
 
@@ -33,11 +38,15 @@ ${contribution}
 ${test}
 
 ## Questions 
-${github} 
+If there are any questions left unanswered, please feel free to reach out via:
+${github}
+or 
 ${email} `;
+};
 
 // TODO: Create an array of questions for user input
-const questions = [
+inquirer
+.prompt([
     {
         type: 'input',
         name: 'title',
@@ -52,6 +61,12 @@ const questions = [
         type: 'input',
         name: 'email',
         message: "What is the email address that you can be reached at?"
+    },
+    {
+        type: 'list',
+        name: 'license',
+        message: 'Select a licnese type:',
+        choices: ['MIT', 'none', 'LIC']
     },
     {
         type: 'input',
@@ -71,24 +86,24 @@ const questions = [
     {
         type: 'input',
         name: 'contribution',
-        message: "contriution guidelines"
+        message: "contribution guidelines"
     },
     {
         type: 'input',
         name: 'test',
         message: "Test instructions"
-    }
-].then(() => {
-    
-}) 
+    },
+])
+.then((answers) => {
+    const readmeContent = generateREADME(answers);
 
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-fs.writeFile('README.md', readmeContent, (err) =>
-      err ? console.log(err) : console.log('Successfully created README.md!')
-    );
+    fs.writeFile('README.md', readmeContent, (err) => {
+      err ? console.log(err) : console.log('Successfully created a README.md!')
+})
+});
+
 // TODO: Create a function to initialize app
-function init(,) {}
+//function init() {}
 
 // Function call to initialize app
-init();
+//init();
