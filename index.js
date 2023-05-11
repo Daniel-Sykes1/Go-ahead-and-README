@@ -7,7 +7,6 @@ const generateMarkdown = require('./utils/generateMarkdown');
  
 const generateREADME = ({title, github, email, description, installation, usage, license, contribution, test}) => {
     return `
-# Title 
 ${title}
 
 ## Table of Contents
@@ -31,6 +30,7 @@ ${usage}
 
 ## License
 ${license}
+
 ## Contribution 
 ${contribution}
 
